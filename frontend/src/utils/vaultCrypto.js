@@ -148,6 +148,11 @@ export async function loginUser(username, password) {
 
 function authHeaders() {
   const token = sessionStorage.getItem('sv_access_token')
+
+  if (!token || token === 'null' || token === 'undefined') {
+    throw new Error('Missing authentication token. Please sign in again.')
+  }
+
   return {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${token}`,

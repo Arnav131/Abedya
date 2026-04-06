@@ -17,6 +17,10 @@ import { API_BASE } from './config'
 export async function auditSecret(secret) {
   const token = sessionStorage.getItem('sv_access_token')
 
+  if (!token || token === 'null' || token === 'undefined') {
+    throw new Error('Missing authentication token. Please sign in again.')
+  }
+
   const res = await fetch(`${API_BASE}/audit/`, {
     method: 'POST',
     headers: {
