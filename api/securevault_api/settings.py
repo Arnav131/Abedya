@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "corsheaders",
     # Local
     "vault",
+    "ai_engine",
 ]
 
 MIDDLEWARE = [

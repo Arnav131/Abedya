@@ -6,6 +6,7 @@ Routes:
   /api/auth/token/          — JWT obtain pair (login)
   /api/auth/token/refresh/  — JWT refresh
   /api/vault/               — Vault CRUD (see vault/urls.py)
+  /api/audit/               — Ephemeral secret audit (Phase 2)
   /admin/                   — Django admin
 """
 
@@ -29,4 +30,7 @@ urlpatterns = [
 
     # ── Vault ──
     path("api/vault/", include("vault.urls")),
+
+    # ── Audit (Phase 2) ──
+    path("api/audit/", include("ai_engine.urls")),
 ]
