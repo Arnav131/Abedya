@@ -1,4 +1,5 @@
 import { NavLink, useNavigate } from 'react-router-dom'
+import { clearMasterKey } from '../utils/sessionSecrets'
 import './Sidebar.css'
 
 const navItems = [
@@ -13,6 +14,7 @@ export default function Sidebar() {
   const initials = currentUser.slice(0, 2).toUpperCase()
 
   const handleLockAll = () => {
+    clearMasterKey()
     sessionStorage.removeItem('sv_master_key')
     sessionStorage.removeItem('sv_access_token')
     sessionStorage.removeItem('sv_refresh_token')

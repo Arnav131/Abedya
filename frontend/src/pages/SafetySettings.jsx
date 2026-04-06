@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
 import StatusBar from '../components/StatusBar'
 import { fetchVaultEntries } from '../utils/vaultCrypto'
+import { clearMasterKey } from '../utils/sessionSecrets'
 import './SafetySettings.css'
 
 export default function SafetySettings() {
@@ -41,6 +42,7 @@ export default function SafetySettings() {
   }
 
   const handleLockSession = () => {
+    clearMasterKey()
     sessionStorage.removeItem('sv_master_key')
     sessionStorage.removeItem('sv_access_token')
     sessionStorage.removeItem('sv_refresh_token')

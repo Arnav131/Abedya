@@ -9,6 +9,7 @@ import {
   fetchVaultEntry,
   updateVaultEntry,
 } from '../utils/vaultCrypto'
+import { getMasterKey } from '../utils/sessionSecrets'
 import './ItemDetails.css'
 
 const CATEGORIES = ['Email', 'Cloud', 'Finance', 'Media', 'Social', 'Dev', 'Other']
@@ -59,7 +60,7 @@ function getStrengthScore(secret) {
 export default function ItemDetails() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const masterPassword = sessionStorage.getItem('sv_master_key')
+  const masterPassword = getMasterKey()
 
   const [form, setForm] = useState(emptyForm)
   const [meta, setMeta] = useState({ created_at: '', updated_at: '' })

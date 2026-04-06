@@ -4,6 +4,7 @@ import {
   fetchVaultEntries,
   decryptPayload,
 } from '../utils/vaultCrypto'
+import { getMasterKey } from '../utils/sessionSecrets'
 import Sidebar from '../components/Sidebar'
 import StatusBar from '../components/StatusBar'
 import './MyVault.css'
@@ -40,7 +41,7 @@ function formatRelativeTime(timestamp) {
 
 export default function MyVault() {
   const navigate = useNavigate()
-  const masterPassword = sessionStorage.getItem('sv_master_key')
+  const masterPassword = getMasterKey()
   const currentUser = sessionStorage.getItem('sv_username') || 'Operator'
 
   const [vaultItems, setVaultItems] = useState([])

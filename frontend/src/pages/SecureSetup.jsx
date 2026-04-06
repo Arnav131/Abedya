@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { registerUser, loginUser } from '../utils/vaultCrypto'
+import { setMasterKey } from '../utils/sessionSecrets'
 import './SecureSetup.css'
 
 export default function SecureSetup() {
@@ -50,7 +51,7 @@ export default function SecureSetup() {
       // Store JWT + master password in sessionStorage (never persisted to disk)
       sessionStorage.setItem('sv_access_token', tokens.access)
       sessionStorage.setItem('sv_refresh_token', tokens.refresh)
-      sessionStorage.setItem('sv_master_key', passphrase)
+      setMasterKey(passphrase)
       sessionStorage.setItem('sv_username', username.trim())
 
       // Navigate to vault

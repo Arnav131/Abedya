@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
 import StatusBar from '../components/StatusBar'
 import { decryptPayload, fetchVaultEntries } from '../utils/vaultCrypto'
+import { getMasterKey } from '../utils/sessionSecrets'
 import './SecurityHealth.css'
 
 const DAY_MS = 24 * 60 * 60 * 1000
@@ -53,7 +54,7 @@ function buildSignalBars(healthScore) {
 
 export default function SecurityHealth() {
   const navigate = useNavigate()
-  const masterPassword = sessionStorage.getItem('sv_master_key')
+  const masterPassword = getMasterKey()
 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')

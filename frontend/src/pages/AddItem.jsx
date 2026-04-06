@@ -2,6 +2,7 @@ import { useState, useRef, useCallback, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { encryptPayload, storeVaultEntry } from '../utils/vaultCrypto'
 import { auditSecret } from '../utils/auditApi'
+import { getMasterKey } from '../utils/sessionSecrets'
 import AuditBadge from '../components/AuditBadge'
 import Sidebar from '../components/Sidebar'
 import StatusBar from '../components/StatusBar'
@@ -11,7 +12,7 @@ const CATEGORIES = ['Email', 'Cloud', 'Finance', 'Media', 'Social', 'Dev', 'Othe
 
 export default function AddItem() {
   const navigate = useNavigate()
-  const masterPassword = sessionStorage.getItem('sv_master_key')
+  const masterPassword = getMasterKey()
   const debounceRef = useRef(null)
 
   // Form state
