@@ -15,6 +15,7 @@ Routes:
 """
 
 from django.contrib import admin
+from django.http import JsonResponse
 from django.urls import path, include
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -29,7 +30,13 @@ from vault.honeypot_views import (
   HoneypotTriggerView,
 )
 
+
+def health_view(_request):
+    return JsonResponse({"status": "ok"})
+
 urlpatterns = [
+  path("health/", health_view, name="health"),
+
     # ── Admin ──
     path("admin/", admin.site.urls),
 

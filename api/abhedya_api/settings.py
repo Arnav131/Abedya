@@ -23,7 +23,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ──────────────────────────────────────────────
 SECRET_KEY = config("SECRET_KEY", default="django-insecure-dev-key-change-me-in-production")
 DEBUG = config("DEBUG", default=True, cast=bool)
-ALLOWED_HOSTS = ['abhedya-ikij.onrender.com','127.0.0.1','localhost']
+ALLOWED_HOSTS = list(
+    config(
+        "ALLOWED_HOSTS",
+        default="127.0.0.1,localhost",
+        cast=Csv(),
+    )
+)
+RENDER_EXTERNAL_HOSTNAME = (os.environ.get("RENDER_EXTERNAL_HOSTNAME") or "").strip()
+if RENDER_EXTERNAL_HOSTNAME and RENDER_EXTERNAL_HOSTNAME not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 # ──────────────────────────────────────────────
 # Application definition
@@ -151,15 +160,27 @@ SIMPLE_JWT = {
 # ──────────────────────────────────────────────
 # CORS
 # ──────────────────────────────────────────────
-CORS_ALLOWED_ORIGINS = config(
-    "CORS_ALLOWED_ORIGINS",
-    default="http://localhost:3000,http://localhost:5173,https://abhedya-ikjj.onrender.com",
-    cast=Csv(),
+CORS_ALLOWED_ORIGINS = list(
+    config(
+        "CORS_ALLOWED_ORIGINS",
+        default="http://localhost:3000,http://localhost:5173",
+        cast=Csv(),
+    )
 )
 CORS_ALLOW_CREDENTIALS = True
 
+CSRF_TRUSTED_ORIGINS = list(
+    config(
+        "CSRF_TRUSTED_ORIGINS",
+        default="http://localhost:3000,http://localhost:5173",
+        cast=Csv(),
+    )
+)
 
-CSRF_TRUSTED_ORIGINS=['https://abhedya-ikij.onrender.com']
+if RENDER_EXTERNAL_HOSTNAME:
+    render_origin = f"https://{RENDER_EXTERNAL_HOSTNAME}"
+    if render_origin not in CSRF_TRUSTED_ORIGINS:
+        CSRF_TRUSTED_ORIGINS.append(render_origin)
 
 
 # ──────────────────────────────────────────────
