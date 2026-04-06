@@ -3,11 +3,20 @@
 .audit-badge {
   padding: var(--space-md);
   border: 1px solid transparent;
-  animation: fadeIn var(--transition-base) ease both;
+  animation: fadeIn var(--transition-base) both;
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
   margin-top: var(--space-sm);
+  transition:
+    border-color var(--transition-fast),
+    background-color var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-base);
+}
+
+.audit-badge:hover {
+  transform: translateY(-2px);
 }
 
 /* Risk-level variants */
@@ -15,26 +24,31 @@
   background: rgba(255, 60, 60, 0.06);
   border-color: rgba(255, 60, 60, 0.35);
   animation: auditFlash 1.5s ease-in-out 2;
+  box-shadow: 0 0 16px rgba(255, 60, 60, 0.14);
 }
 
 .audit-badge--warning {
   background: rgba(255, 180, 0, 0.06);
   border-color: rgba(255, 180, 0, 0.30);
+  box-shadow: 0 0 12px rgba(255, 180, 0, 0.10);
 }
 
 .audit-badge--info {
   background: rgba(0, 162, 253, 0.06);
   border-color: rgba(0, 162, 253, 0.25);
+  box-shadow: 0 0 12px rgba(0, 162, 253, 0.10);
 }
 
 .audit-badge--safe {
   background: rgba(0, 255, 65, 0.06);
   border-color: rgba(0, 255, 65, 0.25);
+  box-shadow: 0 0 12px rgba(0, 255, 65, 0.10);
 }
 
 .audit-badge--loading {
   background: var(--surface-container);
   border-color: var(--outline-variant);
+  animation: pulse 1.4s ease-in-out infinite;
 }
 
 /* Header */
@@ -85,11 +99,23 @@
   height: 4px;
   background: var(--surface-highest);
   overflow: hidden;
+  position: relative;
 }
 
 .audit-badge__bar-fill {
   height: 100%;
   transition: width var(--transition-slow);
+  position: relative;
+  overflow: hidden;
+}
+
+.audit-badge__bar-fill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 25%, rgba(255,255,255,0.35) 50%, transparent 75%);
+  animation: scanLine 2.4s linear infinite;
+  opacity: 0.45;
 }
 
 .audit-badge__bar-fill--critical { background: #ff4444; }
@@ -118,6 +144,18 @@
   font-size: 0.78rem;
   color: var(--on-surface-variant);
   line-height: 1.5;
+  animation: fadeIn 420ms var(--motion-emphasis) both;
+}
+
+.audit-badge__recs li:nth-child(1) { animation-delay: 30ms; }
+.audit-badge__recs li:nth-child(2) { animation-delay: 80ms; }
+.audit-badge__recs li:nth-child(3) { animation-delay: 120ms; }
+.audit-badge__recs li:nth-child(4) { animation-delay: 170ms; }
+.audit-badge__recs li:nth-child(5) { animation-delay: 210ms; }
+.audit-badge__recs li:nth-child(6) { animation-delay: 250ms; }
+
+.audit-badge__recs li:hover {
+  color: var(--on-surface);
 }
 
 .audit-badge__recs li .icon {
@@ -141,6 +179,13 @@
   font-family: var(--font-mono);
   font-size: 0.68rem;
   color: var(--on-surface-variant);
+  transition: border-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+}
+
+.audit-badge__detail-chip:hover {
+  border-color: var(--outline);
+  color: var(--on-surface);
+  transform: translateY(-1px);
 }
 
 .audit-badge__detail-chip strong {

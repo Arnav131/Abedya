@@ -5,6 +5,11 @@
 .details__back {
   margin-bottom: var(--space-lg);
   font-size: 0.85rem;
+  transition: transform var(--transition-fast), color var(--transition-fast);
+}
+
+.details__back:hover {
+  transform: translateX(-2px);
 }
 
 .details__header {
@@ -14,6 +19,7 @@
   margin-bottom: var(--space-xl);
   flex-wrap: wrap;
   gap: var(--space-md);
+  animation: riseIn 420ms var(--motion-emphasis) both;
 }
 
 .details__header-left {
@@ -31,6 +37,7 @@
   background: var(--surface-container);
   color: var(--primary-container);
   border: var(--ghost-border);
+  animation: floatY 4s ease-in-out infinite;
 }
 
 .details__label {
@@ -60,6 +67,14 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);
+}
+
+.details__credentials > .card:nth-child(1) {
+  animation: fadeIn 420ms var(--motion-emphasis) both;
+}
+
+.details__credentials > .card:nth-child(2) {
+  animation: fadeIn 420ms var(--motion-emphasis) 80ms both;
 }
 
 .details__section-title {
@@ -100,6 +115,11 @@
   justify-content: space-between;
   align-items: center;
   gap: var(--space-md);
+  transition: transform var(--transition-fast);
+}
+
+.details__field-row:hover {
+  transform: translateX(2px);
 }
 
 .details__field-row .input-field {
@@ -130,6 +150,18 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);
+}
+
+.details__security > .card:nth-child(1) {
+  animation: fadeIn 420ms var(--motion-emphasis) 120ms both;
+}
+
+.details__security > .card:nth-child(2) {
+  animation: fadeIn 420ms var(--motion-emphasis) 180ms both;
+}
+
+.details__security > .card:nth-child(3) {
+  animation: fadeIn 420ms var(--motion-emphasis) 240ms both;
 }
 
 /* Toggle */
@@ -177,6 +209,7 @@
   inset: 0;
   background: var(--surface-highest);
   transition: var(--transition-base);
+  border: 1px solid rgba(132,150,126,0.25);
 }
 
 .toggle__slider::before {
@@ -192,11 +225,13 @@
 
 .toggle input:checked + .toggle__slider {
   background: rgba(0,255,65,0.20);
+  box-shadow: inset 0 0 10px rgba(0,255,65,0.18);
 }
 
 .toggle input:checked + .toggle__slider::before {
   background: var(--primary-container);
   transform: translateX(20px);
+  box-shadow: 0 0 10px rgba(0,255,65,0.35);
 }
 
 /* Assessment */
@@ -217,6 +252,7 @@
   font-weight: 700;
   line-height: 1;
   margin-bottom: 4px;
+  text-shadow: 0 0 14px rgba(0,255,65,0.2);
 }
 
 /* Metadata */
@@ -231,6 +267,11 @@
   justify-content: space-between;
   align-items: center;
   font-size: 0.82rem;
+  transition: transform var(--transition-fast), color var(--transition-fast);
+}
+
+.details__meta-row:hover {
+  transform: translateX(2px);
 }
 
 .details__meta-row .mono {

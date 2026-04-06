@@ -2,11 +2,22 @@
   padding-bottom: 80px;
 }
 
+@keyframes vaultBadgePop {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+
+@keyframes vaultSweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(130%); }
+}
+
 .vault__header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: var(--space-xl);
+  animation: riseIn 420ms var(--motion-emphasis) both;
 }
 
 .vault__page-title {
@@ -42,11 +53,13 @@
   font-size: 0.65rem;
   font-weight: 700;
   line-height: 1;
+  animation: vaultBadgePop 1.6s ease-in-out infinite;
 }
 
 .vault__search-panel,
 .vault__notif-panel {
   margin-bottom: var(--space-lg);
+  animation: riseIn 320ms var(--motion-emphasis) both;
 }
 
 .vault__search-panel-top,
@@ -73,11 +86,16 @@
   justify-content: space-between;
   gap: var(--space-md);
   text-align: left;
+  transition:
+    border-color var(--transition-fast),
+    background-color var(--transition-fast),
+    transform var(--transition-fast);
 }
 
 .vault__notif-item:hover {
   border-color: rgba(59, 75, 55, 0.35);
   background: var(--surface-container-high);
+  transform: translateY(-1px);
 }
 
 .vault__notif-item p {
@@ -98,6 +116,14 @@
   margin-bottom: var(--space-xl);
 }
 
+.vault__summary > .card:nth-child(1) {
+  animation: fadeIn 420ms var(--motion-emphasis) both;
+}
+
+.vault__summary > .card:nth-child(2) {
+  animation: fadeIn 420ms var(--motion-emphasis) 90ms both;
+}
+
 .vault__health-card {
   background: var(--surface-container);
 }
@@ -114,6 +140,7 @@
   font-size: 2.5rem;
   font-weight: 700;
   line-height: 1;
+  text-shadow: 0 0 14px rgba(0,255,65,0.25);
 }
 
 .vault__add-card {
@@ -127,11 +154,26 @@
   background: transparent;
   gap: var(--space-sm);
   transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
 }
 
 .vault__add-card:hover {
   border-color: var(--primary-container);
   background: rgba(0,255,65,0.03);
+}
+
+.vault__add-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 20%, rgba(0,255,65,0.16) 50%, transparent 80%);
+  transform: translateX(-130%);
+  pointer-events: none;
+}
+
+.vault__add-card:hover::after {
+  animation: vaultSweep 760ms var(--motion-emphasis) 1;
 }
 
 .vault__add-icon {
@@ -143,6 +185,12 @@
   background: rgba(0,255,65,0.08);
   color: var(--primary-container);
   margin-bottom: var(--space-sm);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.vault__add-card:hover .vault__add-icon {
+  transform: rotate(8deg) scale(1.05);
+  box-shadow: 0 0 18px rgba(0,255,65,0.2);
 }
 
 /* Section header */
@@ -165,11 +213,12 @@
   cursor: pointer;
   animation: fadeIn var(--transition-slow) ease both;
   padding: var(--space-lg);
+  transform-origin: center bottom;
 }
 
 .vault__item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.18);
 }
 
 .vault__item-header {
@@ -228,6 +277,20 @@
   background: var(--surface-container);
   border: var(--ghost-border);
   margin-bottom: var(--space-3xl);
+  position: relative;
+  overflow: hidden;
+  animation: riseIn 460ms var(--motion-emphasis) 120ms both;
+}
+
+.vault__encrypted-banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(0,255,65,0.6) 50%, transparent 100%);
+  animation: scanLine 5s linear infinite;
 }
 
 .vault__banner-left {

@@ -2,11 +2,28 @@
   padding-bottom: 80px;
 }
 
+@keyframes signalPulse {
+  0%, 100% {
+    transform: scaleY(0.92);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scaleY(1);
+    opacity: 0.95;
+  }
+}
+
+@keyframes gaugeFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
 .health__header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: var(--space-xl);
+  animation: riseIn 420ms var(--motion-emphasis) both;
 }
 
 /* Gauge card */
@@ -19,6 +36,7 @@
   align-items: center;
   gap: var(--space-2xl);
   padding: var(--space-xl);
+  animation: fadeIn 460ms var(--motion-emphasis) both;
 }
 
 .health__gauge {
@@ -26,6 +44,7 @@
   width: 200px;
   height: 200px;
   flex-shrink: 0;
+  animation: gaugeFloat 4s ease-in-out infinite;
 }
 
 .health__gauge-svg {
@@ -35,6 +54,7 @@
 
 .health__gauge-arc {
   transition: stroke-dashoffset 1.5s ease;
+  filter: drop-shadow(0 0 10px rgba(0,255,65,0.28));
 }
 
 .health__gauge-center {
@@ -81,6 +101,14 @@
   margin-bottom: var(--space-xl);
 }
 
+.health__cards-row > .card:nth-child(1) {
+  animation: fadeIn 420ms var(--motion-emphasis) 80ms both;
+}
+
+.health__cards-row > .card:nth-child(2) {
+  animation: fadeIn 420ms var(--motion-emphasis) 140ms both;
+}
+
 .health__card-top {
   display: flex;
   justify-content: space-between;
@@ -100,6 +128,11 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  transition: transform var(--transition-fast);
+}
+
+.health__defense-item:hover {
+  transform: translateX(2px);
 }
 
 .health__defense-label {
@@ -131,11 +164,23 @@
   opacity: 0.6;
   animation: fadeIn 0.5s ease both;
   min-width: 0;
+  transform-origin: bottom;
 }
 
 .health__signal-bar:nth-child(odd) {
   opacity: 0.8;
 }
+
+.health__signal-bar:nth-child(1)  { animation: fadeIn 0.4s ease both, signalPulse 1.8s ease-in-out 0ms infinite; }
+.health__signal-bar:nth-child(2)  { animation: fadeIn 0.4s ease both, signalPulse 1.8s ease-in-out 120ms infinite; }
+.health__signal-bar:nth-child(3)  { animation: fadeIn 0.4s ease both, signalPulse 1.8s ease-in-out 240ms infinite; }
+.health__signal-bar:nth-child(4)  { animation: fadeIn 0.4s ease both, signalPulse 1.8s ease-in-out 360ms infinite; }
+.health__signal-bar:nth-child(5)  { animation: fadeIn 0.4s ease both, signalPulse 1.8s ease-in-out 480ms infinite; }
+.health__signal-bar:nth-child(6)  { animation: fadeIn 0.4s ease both, signalPulse 1.8s ease-in-out 600ms infinite; }
+.health__signal-bar:nth-child(7)  { animation: fadeIn 0.4s ease both, signalPulse 1.8s ease-in-out 720ms infinite; }
+.health__signal-bar:nth-child(8)  { animation: fadeIn 0.4s ease both, signalPulse 1.8s ease-in-out 840ms infinite; }
+.health__signal-bar:nth-child(9)  { animation: fadeIn 0.4s ease both, signalPulse 1.8s ease-in-out 960ms infinite; }
+.health__signal-bar:nth-child(10) { animation: fadeIn 0.4s ease both, signalPulse 1.8s ease-in-out 1080ms infinite; }
 
 .health__connection-stats {
   display: flex;
@@ -181,11 +226,16 @@
   padding: var(--space-md) var(--space-lg);
   background: var(--surface-container);
   border: var(--ghost-border);
-  transition: background var(--transition-fast);
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    transform var(--transition-fast);
 }
 
 .health__event:hover {
   background: var(--surface-container-high);
+  border-color: rgba(59,75,55,0.3);
+  transform: translateY(-1px);
 }
 
 .health__event-icon {
@@ -236,6 +286,21 @@
   margin-bottom: var(--space-3xl);
   background: var(--surface-container);
   animation: breathe 4s ease-in-out infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+.health__audit-cta::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 20%, rgba(0,162,253,0.14) 50%, transparent 80%);
+  transform: translateX(-130%);
+  pointer-events: none;
+}
+
+.health__audit-cta:hover::after {
+  animation: shimmerSweep 760ms var(--motion-emphasis) 1;
 }
 
 .health__audit-left {

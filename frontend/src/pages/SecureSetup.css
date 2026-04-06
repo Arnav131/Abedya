@@ -10,6 +10,24 @@
   overflow: hidden;
 }
 
+@keyframes orbDriftGreen {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-28px, 22px, 0) scale(1.06);
+  }
+}
+
+@keyframes orbDriftBlue {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(24px, -18px, 0) scale(1.08);
+  }
+}
+
 /* Ambient orbs */
 .setup__ambient {
   position: absolute;
@@ -23,6 +41,7 @@
   border-radius: 50%;
   filter: blur(120px);
   opacity: 0.08;
+  will-change: transform;
 }
 
 .setup__ambient-orb--green {
@@ -31,6 +50,7 @@
   background: var(--primary-container);
   top: -100px;
   right: -100px;
+  animation: orbDriftGreen 14s ease-in-out infinite;
 }
 
 .setup__ambient-orb--blue {
@@ -39,6 +59,7 @@
   background: var(--secondary-container);
   bottom: -80px;
   left: -80px;
+  animation: orbDriftBlue 16s ease-in-out infinite;
 }
 
 .setup__container {
@@ -57,6 +78,7 @@
   flex-direction: column;
   justify-content: center;
   gap: var(--space-xl);
+  animation: fadeIn 440ms var(--motion-emphasis) both;
 }
 
 .setup__step-badge {
@@ -71,6 +93,7 @@
   background: rgba(0,255,65,0.08);
   padding: 6px 14px;
   width: fit-content;
+  animation: pulse 2.8s ease-in-out infinite;
 }
 
 .setup__title {
@@ -96,6 +119,11 @@
   display: flex;
   gap: var(--space-md);
   align-items: flex-start;
+  transition: transform var(--transition-fast);
+}
+
+.setup__feature:hover {
+  transform: translateX(4px);
 }
 
 .setup__feature-icon {
@@ -107,11 +135,17 @@
   background: rgba(0,255,65,0.08);
   color: var(--primary-container);
   flex-shrink: 0;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .setup__feature-icon--blue {
   background: rgba(0,162,253,0.08);
   color: var(--secondary-container);
+}
+
+.setup__feature:hover .setup__feature-icon {
+  transform: translateY(-2px);
+  box-shadow: 0 0 16px rgba(0,255,65,0.15);
 }
 
 .setup__feature h4 {
@@ -132,6 +166,21 @@
   gap: var(--space-lg);
   animation: breathe 4s ease-in-out infinite;
   box-shadow: var(--shadow-ambient);
+  position: relative;
+  overflow: hidden;
+}
+
+.setup__card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -40%;
+  width: 40%;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(0,255,65,0.18) 60%, transparent 100%);
+  animation: scanLine 6s linear infinite;
+  opacity: 0.4;
+  pointer-events: none;
 }
 
 .setup__card-header {
@@ -193,14 +242,15 @@
   color: var(--on-surface-variant);
   cursor: pointer;
   padding: 4px;
-  transition: color var(--transition-fast);
+  transition: color var(--transition-fast), transform var(--transition-fast);
 }
 
 .setup__toggle-vis:hover {
   color: var(--on-surface);
+  transform: translateY(-50%) scale(1.08);
 }
 
-/* Strength  */
+/* Strength */
 .setup__strength {
   display: flex;
   flex-direction: column;
@@ -226,6 +276,12 @@
   font-size: 0.82rem;
   color: var(--on-surface-variant);
   line-height: 1.5;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.setup__tip:hover {
+  background: var(--surface-container);
+  transform: translateY(-1px);
 }
 
 .setup__tip .icon {
@@ -271,6 +327,7 @@
   background: var(--surface-lowest);
   border-top: var(--ghost-border);
   z-index: 10;
+  animation: riseIn 500ms var(--motion-emphasis) 180ms both;
 }
 
 .setup__bottom-status .icon {
@@ -285,5 +342,8 @@
     grid-template-columns: 1fr;
     gap: var(--space-xl);
   }
-  .setup__title { font-size: 2rem; }
+
+  .setup__title {
+    font-size: 2rem;
+  }
 }

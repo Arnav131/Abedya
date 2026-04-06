@@ -5,6 +5,11 @@
   align-items: center;
   gap: 6px;
   margin-bottom: var(--space-xl);
+  transition: transform var(--transition-fast), color var(--transition-fast);
+}
+
+.add__back:hover {
+  transform: translateX(-2px);
 }
 
 .add__layout {
@@ -22,6 +27,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
+  animation: fadeIn 420ms var(--motion-emphasis) both;
 }
 
 .add__form-header {
@@ -50,6 +56,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  animation: riseIn 260ms var(--motion-emphasis) both;
 }
 
 /* Secret field */
@@ -99,6 +106,7 @@
 .add__audit-btn:hover:not(:disabled) {
   background: rgba(0, 162, 253, 0.22);
   box-shadow: 0 0 10px rgba(0, 162, 253, 0.15);
+  transform: translateY(-1px);
 }
 
 .add__audit-btn:disabled {
@@ -140,12 +148,14 @@
 .add__cat-btn:hover {
   color: var(--on-surface);
   border-color: var(--outline);
+  transform: translateY(-1px);
 }
 
 .add__cat-btn--active {
   background: rgba(0, 255, 65, 0.10);
   color: var(--primary-container);
   border-color: rgba(0, 255, 65, 0.30);
+  box-shadow: 0 0 14px rgba(0,255,65,0.15);
 }
 
 /* Submit */
@@ -161,6 +171,7 @@
   gap: var(--space-lg);
   position: sticky;
   top: var(--space-xl);
+  animation: fadeIn 420ms var(--motion-emphasis) 90ms both;
 }
 
 .add__info-title {
@@ -180,6 +191,11 @@
   display: flex;
   gap: var(--space-md);
   align-items: flex-start;
+  transition: transform var(--transition-fast), color var(--transition-fast);
+}
+
+.add__step:hover {
+  transform: translateX(4px);
 }
 
 .add__step-num {
@@ -189,6 +205,7 @@
   color: var(--primary-container);
   min-width: 24px;
   padding-top: 2px;
+  text-shadow: 0 0 10px rgba(0,255,65,0.25);
 }
 
 .add__step strong {
@@ -206,6 +223,7 @@
   display: flex;
   gap: var(--space-md);
   align-items: flex-start;
+  animation: riseIn 420ms var(--motion-emphasis) 160ms both;
 }
 
 .add__warning-card h4 {
