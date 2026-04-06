@@ -9,7 +9,7 @@
  *   Plaintext JSON → AES-GCM encrypt → { ciphertext, iv, salt }
  */
 
-const API_BASE = 'http://localhost:8000/api'
+import { API_BASE } from './config'
 
 const enc = new TextEncoder()
 const dec = new TextDecoder()

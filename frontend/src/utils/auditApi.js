@@ -5,7 +5,7 @@
  * The server never saves the string — analysis is in-memory only.
  */
 
-const API_BASE = 'http://localhost:8000/api'
+import { API_BASE } from './config'
 
 /**
  * Audit a secret string via the Django heuristic engine.
