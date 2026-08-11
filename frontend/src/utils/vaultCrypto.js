@@ -10,6 +10,7 @@
  */
 
 import { API_BASE } from "./config";
+import { apiFetch } from "./apiClient";
 
 const enc = new TextEncoder();
 const dec = new TextDecoder();
@@ -151,18 +152,7 @@ export async function loginUser(username, password) {
 // Vault API
 // ════════════════════════════════════════════
 
-function authHeaders() {
-  const token = sessionStorage.getItem("sv_access_token");
-
-  if (!token || token === "null" || token === "undefined") {
-    throw new Error("Missing authentication token. Please sign in again.");
-  }
-
-  return {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`,
-  };
-}
+// auth headers and retry/refresh flow handled by apiClient.apiFetch
 
 async function parseResponse(res, fallbackMessage = "Request failed") {
   const raw = await res.text();
@@ -208,9 +198,8 @@ async function parseResponse(res, fallbackMessage = "Request failed") {
  * Store a new encrypted vault entry.
  */
 export async function storeVaultEntry(label, ciphertext, iv, salt) {
-  const res = await fetch(`${API_BASE}/vault/store/`, {
+  const res = await apiFetch(`/vault/store/`, {
     method: "POST",
-    headers: authHeaders(),
     body: JSON.stringify({ label, ciphertext, iv, salt }),
   });
   return parseResponse(res, "Failed to store vault entry");
@@ -221,10 +210,7 @@ export async function storeVaultEntry(label, ciphertext, iv, salt) {
  * Returns paginated results — we extract the `results` array.
  */
 export async function fetchVaultEntries() {
-  const res = await fetch(`${API_BASE}/vault/`, {
-    headers: authHeaders(),
-  });
-
+  const res = await apiFetch(`/vault/`);
   const data = await parseResponse(res, "Failed to fetch vault entries");
 
   if (Array.isArray(data)) {
@@ -242,10 +228,7 @@ export async function fetchVaultEntries() {
  * Fetch honeypot status summary and alert details for the current user.
  */
 export async function fetchHoneypotStatus() {
-  const res = await fetch(`${API_BASE}/honeypot/status/`, {
-    headers: authHeaders(),
-  });
-
+  const res = await apiFetch(`/honeypot/status/`);
   return parseResponse(res, "Failed to fetch honeypot status");
 }
 
@@ -253,10 +236,7 @@ export async function fetchHoneypotStatus() {
  * Fetch a single vault entry by UUID.
  */
 export async function fetchVaultEntry(id) {
-  const res = await fetch(`${API_BASE}/vault/${id}/`, {
-    headers: authHeaders(),
-  });
-
+  const res = await apiFetch(`/vault/${id}/`);
   return parseResponse(res, "Failed to fetch vault entry");
 }
 
@@ -264,9 +244,8 @@ export async function fetchVaultEntry(id) {
  * Update an existing vault entry by UUID.
  */
 export async function updateVaultEntry(id, payload) {
-  const res = await fetch(`${API_BASE}/vault/${id}/update/`, {
+  const res = await apiFetch(`/vault/${id}/update/`, {
     method: "PUT",
-    headers: authHeaders(),
     body: JSON.stringify(payload),
   });
 
@@ -277,15 +256,10 @@ export async function updateVaultEntry(id, payload) {
  * Delete a vault entry by UUID.
  */
 export async function deleteVaultEntry(id) {
-  const res = await fetch(`${API_BASE}/vault/${id}/delete/`, {
-    method: "DELETE",
-    headers: authHeaders(),
-  });
-
+  const res = await apiFetch(`/vault/${id}/delete/`, { method: "DELETE" });
   if (res.status === 204) {
     return true;
   }
-
   await parseResponse(res, "Failed to delete entry");
   return true;
 }

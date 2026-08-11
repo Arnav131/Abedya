@@ -5,6 +5,7 @@ import StatusBar from "../components/StatusBar";
 import { fetchVaultEntries } from "../utils/vaultCrypto";
 import { clearMasterKey } from "../utils/sessionSecrets";
 import "./SafetySettings.css";
+import { apiFetch } from "../utils/apiClient";
 
 export default function SafetySettings() {
   const navigate = useNavigate();
@@ -46,15 +47,7 @@ export default function SafetySettings() {
 
   async function fetchLlmStatus() {
     try {
-      const token = sessionStorage.getItem("sv_access_token");
-      if (!token) return;
-      const res = await fetch(`/api/honeypot/llm-status/`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const res = await apiFetch(`/honeypot/llm-status/`);
       if (!res.ok) return;
       const body = await res.json();
       const status = body && body.status ? body.status : body;
