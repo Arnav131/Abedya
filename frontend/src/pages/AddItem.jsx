@@ -301,7 +301,7 @@ export default function AddItem() {
                   <div>
                     <strong>Paste & Audit</strong>
                     <p className="text-muted">
-                      Secret is analyzed ephemerally by Django — never saved.
+                      Secrets are briefly analyzed by the audit service for risk detection and are not persisted.
                     </p>
                   </div>
                 </div>
@@ -319,8 +319,7 @@ export default function AddItem() {
                   <div>
                     <strong>Dumb Storage</strong>
                     <p className="text-muted">
-                      Only ciphertext hits the server. Plaintext never leaves
-                      your browser.
+                      Only ciphertext is stored server-side; plaintext is encrypted in your browser. The audit feature briefly sends plaintext for analysis and is not persisted.
                     </p>
                   </div>
                 </div>

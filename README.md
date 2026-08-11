@@ -67,3 +67,18 @@ abhedya_root/
         ├── auditor.py         # Heuristic analysis
         ├── honeypot_llm.py    # Local LLM integration
         └── pytorch_model.py   # RNN password predictor
+
+## Frontend Deployment
+
+The frontend reads its backend API base URL from the environment variable `VITE_API_BASE_URL`. During production builds you must set `VITE_API_BASE_URL` to the deployed backend API (for example `https://api.example.com/api`).
+
+See `frontend/.env.production.example` for a template. Do NOT hardcode production URLs into the source.
+
+### Deployment note: SMTP & honeypot alerting
+
+If you intend to enable SMTP-based breach/alert notifications in production, set the SMTP credentials and the alert toggle in your deployment environment rather than in source. Example environment variables to configure:
+
+- `SMTP_HOST`, `SMTP_PORT`, `SMTP_EMAIL`, `SMTP_PASSWORD` — SMTP server credentials
+- `HONEYPOT_ALERT_ENABLED` — set to `true` to enable sending alerts when SMTP is configured
+
+On Render, `HONEYPOT_ALERT_ENABLED` is now configured via the service env settings (see `render.yaml`) and should be left disabled by default until valid SMTP credentials are supplied.

@@ -43,4 +43,4 @@ services:
       - key: HONEYPOT_LLM_BACKEND
         value: "fallback"
       - key: HONEYPOT_ALERT_ENABLED
-        value: "False"
+        sync: false

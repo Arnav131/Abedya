@@ -212,9 +212,27 @@ def create_honeypots_on_registration(sender, instance, created, **kwargs):
         logger.info("Honeypot generation is disabled — skipping.")
         return
 
-    created_count = _generate_and_store_honeypots(instance.id)
-    logger.info(
-        "Honeypot generation completed for user '%s' (created=%d).",
-        instance.username,
-        created_count,
-    )
+    def _dispatch_background_job(user_id: int) -> None:
+        try:
+            import threading
+
+            thread = threading.Thread(
+                target=_generate_and_store_honeypots,
+                args=(user_id,),
+                daemon=True,
+            )
+            thread.start()
+
+            logger.info(
+                "Dispatched honeypot generation to background thread for user '%s'.",
+                instance.username,
+            )
+        except Exception as exc:
+            logger.error(
+                "Failed to dispatch background honeypot generation for user '%s': %s",
+                instance.username,
+                exc,
+                exc_info=True,
+            )
+
+    transaction.on_commit(lambda: _dispatch_background_job(instance.id))

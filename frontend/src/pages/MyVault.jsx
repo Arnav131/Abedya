@@ -1045,8 +1045,7 @@ export default function MyVault() {
                 initialDelay={120}
               />
               <p className="text-muted" style={{ fontSize: "0.82rem" }}>
-                All data is encrypted client-side. The server stores only
-                ciphertext.
+                Data is encrypted client-side and only ciphertext is stored server-side; the audit feature briefly sends plaintext for analysis but it is not persisted.
               </p>
             </div>
           </div>
