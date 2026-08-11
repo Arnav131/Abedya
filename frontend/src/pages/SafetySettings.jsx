@@ -13,6 +13,8 @@ export default function SafetySettings() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [lastChecked, setLastChecked] = useState("");
+  const [llmMode, setLlmMode] = useState(null);
+  const [llmAvailable, setLlmAvailable] = useState(false);
 
   const [autoLock, setAutoLock] = useState(true);
   const [biometricHint, setBiometricHint] = useState(false);
@@ -24,6 +26,7 @@ export default function SafetySettings() {
     }
 
     verifyBackendConnection();
+    fetchLlmStatus();
   }, []);
 
   async function verifyBackendConnection() {
@@ -38,6 +41,27 @@ export default function SafetySettings() {
       setError(err.message || "Failed to connect to backend API.");
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function fetchLlmStatus() {
+    try {
+      const token = sessionStorage.getItem("sv_access_token");
+      if (!token) return;
+      const res = await fetch(`/api/honeypot/llm-status/`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      if (!res.ok) return;
+      const body = await res.json();
+      const status = body && body.status ? body.status : body;
+      setLlmMode(status && status.effective_mode ? status.effective_mode : null);
+      setLlmAvailable(Boolean(status && status.llm_available));
+    } catch (err) {
+      // non-blocking: show nothing if status can't be fetched
     }
   }
 
@@ -117,6 +141,13 @@ export default function SafetySettings() {
             <div className="settings__row">
               <span className="text-muted">Vault Entries Found</span>
               <span className="mono">{loading ? "..." : entryCount}</span>
+            </div>
+
+            <div className="settings__row">
+              <span className="text-muted">Deception Engine</span>
+              <span className={`badge ${llmAvailable ? "badge--green" : "badge--yellow"}`}>
+                {llmMode ? llmMode.charAt(0).toUpperCase() + llmMode.slice(1) : "Unknown"}
+              </span>
             </div>
 
             <div className="settings__row">
